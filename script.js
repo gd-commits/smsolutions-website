@@ -1,16 +1,17 @@
 /* ============================================================
-   SPEND MATTERS — scroll-scrubbed WebGL scene
-   Hero: pale hanging cables with warm glowing tips.
-   On scroll the cables wind themselves into a sphere of
-   yarn folds with a molten amber core — the reference look —
-   fully procedural, no video to host or buffer.
+   SPEND MATTERS — v4
+   Scene: pale cables wind into a rope-fold sphere with a SMALL
+   warm ember core (v3's core was blowing out to white — fixed
+   by shrinking the glow, thickening the rope lines and raising
+   strand contrast). Plus: Fabric chat guide, magnetic buttons.
 
-   Quick tuning:
-     STRANDS · PTS  — yarn density
-     CABLES         — hanging cables in the hero
-     R              — sphere radius
-     FOLDS          — wrinkle frequency of the folds
-     MORPH_SPAN     — how much scroll the cable→sphere morph takes
+   Scene tuning:
+     STRANDS · PTS   — yarn density
+     CABLES          — hanging cables in the hero
+     R               — sphere radius
+     FOLDS           — wrinkle frequency
+     MORPH_SPAN      — scroll fraction for cable→sphere
+     CORE_SIZE/ALPHA — ember glow (keep small!)
    ============================================================ */
 (function () {
 'use strict';
@@ -18,8 +19,9 @@
 var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
 var lerp = function (a, b, t) { return a + (b - a) * t; };
 var REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+var HOVER = matchMedia('(hover:hover)').matches;
 
-/* ---------- reveals: 700ms ease-out, per-element delay ---------- */
+/* ---------- reveals ---------- */
 $$('.rv').forEach(function (el) { el.style.transitionDelay = (el.dataset.delay || 0) + 'ms'; });
 var io = new IntersectionObserver(function (en) {
   en.forEach(function (e) {
@@ -28,7 +30,7 @@ var io = new IntersectionObserver(function (en) {
 }, { threshold: 0.15 });
 $$('.rv').forEach(function (el) { io.observe(el); });
 
-/* ---------- smooth anchor scroll ---------- */
+/* ---------- smooth anchors ---------- */
 $$('a[href^="#"]').forEach(function (a) {
   a.addEventListener('click', function (e) {
     var el = document.getElementById(a.getAttribute('href').slice(1));
@@ -39,8 +41,123 @@ $$('a[href^="#"]').forEach(function (a) {
   });
 });
 
+/* ---------- magnetic hover on buttons ---------- */
+if (HOVER && !REDUCED) {
+  $$('.btn-solid,.btn-amber,.btn-glass,.nav-cta').forEach(function (el) {
+    el.addEventListener('mousemove', function (e) {
+      var r = el.getBoundingClientRect();
+      el.style.transform = 'translate(' + ((e.clientX - r.left - r.width / 2) * 0.14) + 'px,' +
+        ((e.clientY - r.top - r.height / 2) * 0.2 - 2) + 'px)';
+    });
+    el.addEventListener('mouseleave', function () { el.style.transform = ''; });
+  });
+}
+
 /* ============================================================
-   WEBGL
+   FABRIC — scripted chat guide (no backend, no tracking)
+   ============================================================ */
+(function fabric() {
+  var launch = document.getElementById('fabLaunch');
+  var panel  = document.getElementById('fabPanel');
+  var log    = document.getElementById('fabLog');
+  var chips  = document.getElementById('fabChips');
+  var closeB = document.getElementById('fabClose');
+  if (!launch || !panel) return;
+
+  var MAIL = 'mailto:INFO@SMSOLUTIONS.NET.IN';
+
+  var TOPICS = {
+    who: { label: 'Who are you?', reply:
+      "We're Spend Matters — an apparel sourcing company. Brands hire us to be their sourcing office in Asia: we find the right factories, negotiate prices, run production and ship on time. Our founder has 20 years in apparel, from fiber to finished garment.",
+      next: ['what', 'where', 'start'] },
+    what: { label: 'What do you do?', reply:
+      "Three things: 1) Sourcing — factory selection, costing and negotiation. 2) Production — merchandising, sampling, quality inspection and shipping, run by our own team. 3) AI tracking — 12 software agents watch every approval, certificate and shipment and flag risk early.",
+      next: ['where', 'price', 'start'] },
+    where: { label: 'Which countries?', reply:
+      "India (head office — knits, home textile, kidswear), Bangladesh (volume wovens and outerwear), China (technical fabrics and trims) and Mauritius (EU duty-free knitwear). Vietnam and Turkey are next.",
+      next: ['what', 'price', 'start'] },
+    price: { label: 'How do you charge?', reply:
+      "Openly. You see the cost breakdown — fabric, trims, making, freight — and our fee sits beside it, not hidden inside the price. Structure depends on the programme: per-order or a monthly retainer for ongoing sourcing. The first consultation is free.",
+      next: ['start', 'who'] },
+    start: { label: 'How do we start?', reply:
+      "Easy — email us the product, target quantity and delivery window. A photo or tech pack is enough. Within days you'll get a factory shortlist, an indicative cost and a realistic date. Want me to open an email for you?",
+      next: ['mail', 'price', 'what'] }
+  };
+
+  var opened = false;
+  function open() {
+    panel.classList.add('open');
+    launch.classList.add('hide');
+    if (!opened) { opened = true; greet(); }
+  }
+  function close() {
+    panel.classList.remove('open');
+    launch.classList.remove('hide');
+  }
+  launch.addEventListener('click', open);
+  closeB.addEventListener('click', close);
+
+  function el(tag, cls, txt) {
+    var n = document.createElement(tag);
+    if (cls) n.className = cls;
+    if (txt) n.textContent = txt;
+    return n;
+  }
+  function scrollLog() { log.scrollTop = log.scrollHeight; }
+
+  function botSay(text, after) {
+    var t = el('div', 'msg bot typing');
+    t.appendChild(el('i')); t.appendChild(el('i')); t.appendChild(el('i'));
+    log.appendChild(t); scrollLog();
+    setTimeout(function () {
+      t.classList.remove('typing');
+      t.textContent = text;
+      scrollLog();
+      if (after) after();
+    }, REDUCED ? 30 : 550 + Math.min(text.length * 6, 700));
+  }
+
+  function showChips(keys) {
+    chips.innerHTML = '';
+    keys.forEach(function (k, i) {
+      if (k === 'mail') {
+        var a = el('a', null, '✉ Email us now');
+        a.href = MAIL + '?subject=Sourcing%20brief%20(via%20Fabric)';
+        a.style.animationDelay = (i * 70) + 'ms';
+        chips.appendChild(a);
+        return;
+      }
+      var b = el('button', null, TOPICS[k].label);
+      b.style.animationDelay = (i * 70) + 'ms';
+      b.addEventListener('click', function () { pick(k); });
+      chips.appendChild(b);
+    });
+  }
+
+  function pick(k) {
+    chips.innerHTML = '';
+    log.appendChild(el('div', 'msg user', TOPICS[k].label));
+    scrollLog();
+    botSay(TOPICS[k].reply, function () { showChips(TOPICS[k].next); });
+  }
+
+  function greet() {
+    botSay("Hi! I'm Fabric, Spend Matters' guide. Ask me anything about who we are and how sourcing with us works.",
+      function () { showChips(['who', 'what', 'where', 'start']); });
+  }
+
+  /* gentle nudge: after 18s on page, wiggle the launcher once */
+  if (!REDUCED) setTimeout(function () {
+    if (!opened) {
+      launch.style.animation = 'none';
+      void launch.offsetWidth;
+      launch.style.animation = '';
+    }
+  }, 18000);
+})();
+
+/* ============================================================
+   WEBGL SCENE
    ============================================================ */
 var canvas = document.getElementById('gl');
 var ok = typeof THREE !== 'undefined';
@@ -67,19 +184,18 @@ scene.add(group);
 var small = innerWidth < 760;
 
 /* ---------------- tunables ---------------- */
-var STRANDS   = small ? 150 : 240;   // yarn strands (sphere meridian folds)
-var PTS       = small ? 80  : 110;   // points per strand
-var CABLES    = small ? 16  : 24;    // visible hanging cables in the hero
-var R         = small ? 1.55 : 2.05; // sphere radius
-var FOLDS     = 7;                   // fold wrinkle frequency
-var MORPH_SPAN = 0.42;               // scroll fraction for cable→sphere
+var STRANDS    = small ? 150 : 240;
+var PTS        = small ? 80  : 110;
+var CABLES     = small ? 16  : 24;
+var R          = small ? 1.45 : 1.85;
+var FOLDS      = 7;
+var MORPH_SPAN = 0.42;
+var CORE_SIZE  = 9;      /* v3 was 26–86 → blowout. Keep ≤ 12. */
+var CORE_ALPHA = 0.10;   /* v3 was 0.28 additive → white nova. */
 
-/* ---------------- build geometry ----------------
-   Every vertex carries two homes:
-   position = hanging-cable state · aSph = yarn-sphere state          */
+/* ---------------- geometry ---------------- */
 var hang = [], sph = [], aT = [], aTip = [], aPole = [], aRnd = [], aShade = [];
 
-/* cable paths the strands bundle into while hanging */
 var cables = [];
 for (var c = 0; c < CABLES; c++) {
   cables.push({
@@ -91,45 +207,42 @@ for (var c = 0; c < CABLES; c++) {
   });
 }
 
-var THETA0 = 0.10, THETA1 = 2.78; /* from front pole, wrapping past the equator */
+var THETA0 = 0.16, THETA1 = 2.78;
 
 for (var s = 0; s < STRANDS; s++) {
   var r0 = Math.random();
   var cab = cables[s % CABLES];
-  var jx = (Math.random() - 0.5) * 0.10;   /* bundle jitter → cables read as rope */
+  var jx = (Math.random() - 0.5) * 0.10;
   var jz = (Math.random() - 0.5) * 0.10;
   var jl = 0.85 + Math.random() * 0.3;
 
   var phi = (s / STRANDS) * Math.PI * 2 + (Math.random() - 0.5) * 0.5 / STRANDS;
   var wPhase = Math.random() * Math.PI * 2;
   var rPhase = Math.random() * Math.PI * 2;
-  var shade = 0.35 + Math.random() * 0.65;  /* dark strands carve the crevices */
+  var shade = Math.random() < 0.35 ? 0.15 + Math.random() * 0.25   /* deep crevice strands */
+                                   : 0.6 + Math.random() * 0.4;    /* lit rope strands     */
 
   for (var i = 0; i < PTS; i++) {
     var t = i / (PTS - 1);
 
-    /* --- hanging cable --- */
     var hy = cab.top - cab.len * jl * t;
     var hx = cab.x + jx + cab.bend * t * t + Math.sin(t * 5 + s) * 0.05;
     var hz = cab.z + jz + Math.cos(t * 4 + s * 2) * 0.04;
     hang.push(hx, hy, hz);
 
-    /* --- yarn sphere: meridian fold from the front pole --- */
     var th = THETA0 + t * (THETA1 - THETA0);
     var sinT = Math.sin(th), cosT = Math.cos(th);
-    /* lateral wiggle gives the fold its wrinkle */
     var wig = Math.sin(t * FOLDS * Math.PI * 2 + wPhase) * 0.055 * (0.35 + 0.65 * sinT);
-    var rip = 1 + 0.045 * Math.sin(t * FOLDS * Math.PI * 3 + rPhase);
+    var rip = 1 + 0.05 * Math.sin(t * FOLDS * Math.PI * 3 + rPhase);
     var px = sinT * Math.cos(phi), py = sinT * Math.sin(phi), pz = cosT;
-    /* azimuthal tangent for the wiggle direction */
     var tx = -Math.sin(phi), ty = Math.cos(phi);
     sph.push((px * rip + tx * wig) * R,
              (py * rip + ty * wig) * R,
              (pz * rip) * R);
 
     aT.push(t);
-    aTip.push(Math.max(0, (t - 0.9) / 0.1));            /* glowing cable tip  */
-    aPole.push(Math.pow(Math.max(0, 1 - th / 0.9), 2)); /* warmth near core   */
+    aTip.push(Math.max(0, (t - 0.9) / 0.1));
+    aPole.push(Math.pow(Math.max(0, 1 - th / 0.75), 2));  /* tighter warm zone */
     aRnd.push(r0);
     aShade.push(shade);
   }
@@ -142,10 +255,10 @@ var U = {
   uMorph: { value: 0 },
   uSpin:  { value: 0 },
   uPR:    { value: DPR },
-  cLight: { value: new THREE.Color('#f7f4ee') },
-  cDark:  { value: new THREE.Color('#7d8595') },
+  cLight: { value: new THREE.Color('#fffdf8') },
+  cDark:  { value: new THREE.Color('#8f8272') },
   cAmber: { value: new THREE.Color('#E58A2E') },
-  cHot:   { value: new THREE.Color('#ffc87f') }
+  cHot:   { value: new THREE.Color('#f6b25e') }
 };
 
 var MORPH_VERT = [
@@ -167,7 +280,7 @@ var MORPH_VERT = [
   '  float burst = sin(uMorph * 3.14159);',
   '  p += vec3(sin(aRnd * 12.0 + aT * 8.0),',
   '            cos(aRnd * 9.0  + aT * 6.0),',
-  '            sin(aRnd * 7.0  + aT * 5.0)) * burst * 0.28 * aRnd;',
+  '            sin(aRnd * 7.0  + aT * 5.0)) * burst * 0.2 * aRnd;',
   '  return p;',
   '}'
 ].join('\n');
@@ -182,8 +295,7 @@ var pMat = new THREE.ShaderMaterial({
     '  vec3 p = morphed();',
     '  vec4 mv = modelViewMatrix * vec4(p, 1.0);',
     '  gl_Position = projectionMatrix * mv;',
-    '  float sz = (1.5 + aTip * 3.2 * (1.0 - uMorph) + aPole * 1.2 * uMorph)',
-    '           * (0.7 + aRnd * 0.6);',
+    '  float sz = (1.7 + aTip * 2.6 * (1.0 - uMorph)) * (0.7 + aRnd * 0.6);',
     '  gl_PointSize = sz * uPR * (120.0 / -mv.z);',
     '  vTip = aTip; vPole = aPole; vRnd = aRnd; vShade = aShade;',
     '  vMorph = uMorph;',
@@ -198,14 +310,13 @@ var pMat = new THREE.ShaderMaterial({
     '  vec2 c = gl_PointCoord - 0.5;',
     '  float d = length(c);',
     '  if (d > 0.5) discard;',
-    '  float soft = smoothstep(0.5, 0.08, d);',
-    '  float pulse = 0.78 + 0.22 * sin(uTime * 1.8 + vRnd * 6.283);',
+    '  float soft = smoothstep(0.5, 0.12, d);',
+    '  float pulse = 0.8 + 0.2 * sin(uTime * 1.8 + vRnd * 6.283);',
     '  vec3 yarn = mix(cDark, cLight, vShade);',
     '  vec3 col = yarn;',
-    '  col = mix(col, cAmber, vTip * pulse * (1.0 - vMorph));    /* cable tips */',
-    '  col = mix(col, cHot,  vPole * pulse * vMorph);            /* molten core */',
-    '  float a = soft * (0.42 + vTip * 0.5 * (1.0 - vMorph) + vPole * 0.5 * vMorph)',
-    '          * (0.45 + vFade * 0.65);',
+    '  col = mix(col, cAmber, vTip * pulse * (1.0 - vMorph));',
+    '  col = mix(col, cHot,  min(vPole * 1.2, 1.0) * vMorph);',
+    '  float a = soft * (0.5 + vTip * 0.4 * (1.0 - vMorph)) * (0.45 + vFade * 0.65);',
     '  gl_FragColor = vec4(col, a);',
     '}'
   ].join('\n')
@@ -221,7 +332,7 @@ pGeo.setAttribute('aRnd',   fattr(aRnd, 1));
 pGeo.setAttribute('aShade', fattr(aShade, 1));
 group.add(new THREE.Points(pGeo, pMat));
 
-/* ---------- continuous strand lines (the fold ridges) ---------- */
+/* ---------- rope lines (raised opacity so folds sculpt) ---------- */
 var lh = [], ls = [], lt = [], ltip = [], lpole = [], lrnd = [], lshade = [];
 for (var s2 = 0; s2 < STRANDS; s2++) {
   var base = s2 * PTS;
@@ -265,22 +376,22 @@ var lMat = new THREE.ShaderMaterial({
     'varying float vShade; varying float vFade; varying float vMorph;',
     'void main() {',
     '  vec3 yarn = mix(cDark, cLight, vShade);',
-    '  vec3 col = mix(yarn, cHot, vPole * vMorph * 0.8);',
+    '  vec3 col = mix(yarn, cHot, min(vPole * 1.1, 1.0) * vMorph);',
     '  col = mix(col, cAmber, vTip * (1.0 - vMorph) * 0.7);',
-    '  float a = (0.30 + vShade * 0.22) * (0.35 + vFade * 0.65);',
+    '  float a = (0.4 + vShade * 0.25) * (0.35 + vFade * 0.65);',
     '  gl_FragColor = vec4(col, a);',
     '}'
   ].join('\n')
 });
 group.add(new THREE.LineSegments(lGeo, lMat));
 
-/* ---------- molten amber core ---------- */
-var CORE = 14;
+/* ---------- small ember core (deliberately modest) ---------- */
+var CORE = 6;
 var cp = [], cr = [];
 for (var ci = 0; ci < CORE; ci++) {
-  var rr = Math.random() * 0.16;
+  var rr = Math.random() * 0.10;
   var aa = Math.random() * Math.PI * 2;
-  cp.push(Math.cos(aa) * rr, Math.sin(aa) * rr, R * (0.62 + Math.random() * 0.3));
+  cp.push(Math.cos(aa) * rr, Math.sin(aa) * rr, R * (0.78 + Math.random() * 0.16));
   cr.push(Math.random());
 }
 var cGeo = new THREE.BufferGeometry();
@@ -294,10 +405,10 @@ var cMat = new THREE.ShaderMaterial({
     'varying float vR; varying float vM;',
     'void main() {',
     '  vec3 p = position;',
-    '  p.xy += vec2(sin(uTime * 0.9 + aRnd * 9.0), cos(uTime * 0.7 + aRnd * 7.0)) * 0.03;',
+    '  p.xy += vec2(sin(uTime * 0.9 + aRnd * 9.0), cos(uTime * 0.7 + aRnd * 7.0)) * 0.02;',
     '  vec4 mv = modelViewMatrix * vec4(p, 1.0);',
     '  gl_Position = projectionMatrix * mv;',
-    '  gl_PointSize = (26.0 + aRnd * 60.0) * uPR * (120.0 / -mv.z) * uMorph;',
+    '  gl_PointSize = (' + CORE_SIZE.toFixed(1) + ' + aRnd * 14.0) * uPR * (120.0 / -mv.z) * uMorph;',
     '  vR = aRnd; vM = uMorph;',
     '}'
   ].join('\n'),
@@ -310,14 +421,14 @@ var cMat = new THREE.ShaderMaterial({
     '  float glow = smoothstep(0.5, 0.0, d);',
     '  float pulse = 0.8 + 0.2 * sin(uTime * 1.6 + vR * 6.283);',
     '  vec3 col = mix(cAmber, cHot, glow);',
-    '  gl_FragColor = vec4(col, glow * glow * 0.28 * pulse * vM);',
+    '  gl_FragColor = vec4(col, glow * glow * ' + CORE_ALPHA.toFixed(2) + ' * pulse * vM);',
     '}'
   ].join('\n')
 });
 group.add(new THREE.Points(cGeo, cMat));
 
-/* ---------- floating bokeh dust ---------- */
-var DUST = small ? 80 : 140;
+/* ---------- dust ---------- */
+var DUST = small ? 70 : 120;
 var dp = [], dr = [];
 for (var di = 0; di < DUST; di++) {
   dp.push((Math.random() * 2 - 1) * 7, (Math.random() * 2 - 1) * 4.5, (Math.random() * 2 - 1) * 3);
@@ -337,7 +448,7 @@ var dMat = new THREE.ShaderMaterial({
     '  p.x += cos(uTime * 0.16 + aRnd * 5.0) * 0.4;',
     '  vec4 mv = modelViewMatrix * vec4(p, 1.0);',
     '  gl_Position = projectionMatrix * mv;',
-    '  gl_PointSize = (3.0 + aRnd * 9.0) * uPR * (90.0 / -mv.z);',
+    '  gl_PointSize = (3.0 + aRnd * 8.0) * uPR * (90.0 / -mv.z);',
     '  vR = aRnd;',
     '}'
   ].join('\n'),
@@ -346,17 +457,15 @@ var dMat = new THREE.ShaderMaterial({
     'void main() {',
     '  float d = length(gl_PointCoord - 0.5);',
     '  if (d > 0.5) discard;',
-    '  float a = smoothstep(0.5, 0.0, d) * 0.10;',
-    '  vec3 col = mix(vec3(1.0), vec3(0.96, 0.78, 0.52), step(0.85, vR));',
+    '  float a = smoothstep(0.5, 0.0, d) * 0.09;',
+    '  vec3 col = mix(vec3(1.0,0.99,0.96), vec3(0.94,0.68,0.36), step(0.85, vR));',
     '  gl_FragColor = vec4(col, a);',
     '}'
   ].join('\n')
 });
 scene.add(new THREE.Points(dGeo, dMat));
 
-/* ============================================================
-   SCROLL SCRUB — smoothed += (target - smoothed) * 0.12
-   ============================================================ */
+/* ---------- scroll scrub ---------- */
 var target = 0, smoothed = 0;
 function readScroll() {
   var max = document.documentElement.scrollHeight - innerHeight;
@@ -366,7 +475,7 @@ addEventListener('scroll', readScroll, { passive: true });
 readScroll();
 
 var pointer = { x: 0, y: 0 };
-if (matchMedia('(hover:hover)').matches) {
+if (HOVER) {
   addEventListener('mousemove', function (e) {
     pointer.x = (e.clientX / innerWidth) * 2 - 1;
     pointer.y = (e.clientY / innerHeight) * 2 - 1;
@@ -389,8 +498,6 @@ function loop(now) {
 
   smoothed += (target - smoothed) * (REDUCED ? 1 : 0.12);
 
-  /* 0 → MORPH_SPAN : cables wind into the yarn sphere
-     after          : the sphere drifts, tilts and keeps turning */
   var morph = REDUCED ? 1 : smooth01(Math.min(1, smoothed / MORPH_SPAN));
   var late = Math.max(0, (smoothed - MORPH_SPAN) / (1 - MORPH_SPAN));
 
@@ -400,13 +507,13 @@ function loop(now) {
   U.uMorph.value = morph;
   U.uSpin.value = spin;
 
-  group.rotation.x = lerp(0.02, -0.10, morph) + late * 0.10 + pointer.y * 0.05;
-  group.rotation.y = lerp(-0.05, 0.12, morph) - late * 0.08 + pointer.x * 0.08;
-  group.position.x = lerp(0, small ? 0 : 0.45, morph) + late * (small ? 0 : 0.55);
-  group.position.y = lerp(0.1, 0.05, morph) - late * 0.35;
-  var sc = lerp(1, 0.98, morph) + late * 0.30;
+  group.rotation.x = lerp(0.02, -0.10, morph) + late * 0.08 + pointer.y * 0.05;
+  group.rotation.y = lerp(-0.05, 0.12, morph) - late * 0.06 + pointer.x * 0.08;
+  group.position.x = lerp(0, small ? 0 : 0.3, morph) + late * (small ? 0 : 0.5);
+  group.position.y = lerp(0.1, 0.05, morph) - late * 0.3;
+  var sc = lerp(1, 0.96, morph) + late * 0.1;   /* v3 grew 0.30 → filled screen */
   group.scale.setScalar(sc);
-  cam.position.z = 7 - late * 0.6;
+  cam.position.z = 7 - late * 0.35;
 
   renderer.render(scene, cam);
   if (!shown) { canvas.classList.add('ready'); shown = true; }
