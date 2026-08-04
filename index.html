@@ -1,284 +1,232 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spend Matters Solutions | AI For Textile Industry</title>
-  <meta name="description" content="AI Automation, Textile Intelligence & Smart Business Solutions for Garment Industries." />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+<title>Spend Matters — AI Woven Into Apparel Sourcing</title>
+<meta name="description" content="Spend Matters is your AI-powered sourcing office across Asia. Global apparel sourcing, AI agents, quality, compliance and logistics — from fiber to delivery." />
+<meta name="theme-color" content="#bfc6d1" />
+<meta property="og:title" content="Spend Matters — AI Woven Into Apparel Sourcing" />
+<meta property="og:description" content="Sourced. Woven. Automated. Your sourcing office across India, Bangladesh, China and Mauritius." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://www.smsolutions.net.in" />
+<link rel="canonical" href="https://www.smsolutions.net.in" />
+<link rel="icon" type="image/svg+xml" href="favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
-  <div class="ambient">
-    <div class="orb a"></div>
-    <div class="orb b"></div>
-    <div class="orb c"></div>
+<!-- FIXED SCENE : mist + WebGL yarn sphere + grain + vignette -->
+<div class="scene" aria-hidden="true">
+  <div class="mist"></div>
+  <canvas id="gl"></canvas>
+  <div class="grain"></div>
+  <div class="vignette"></div>
+</div>
+
+<div class="page">
+
+<!-- NAV -->
+<header>
+  <div class="nav">
+    <a href="#top" class="logo rv" data-delay="0" aria-label="Spend Matters home">
+      <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <circle cx="16.5" cy="21.5" r="13" stroke="currentColor" stroke-width="1.4"/>
+        <path d="M23.6 14.8 C 13 12.8, 11 20.2, 17.2 21.4 C 23.4 22.6, 22.8 30.2, 11 27.8"
+              stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <path d="M23.6 14.8 C 27.6 15.4, 31.5 12.6, 34 8.9"
+              stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+        <circle cx="35" cy="7.6" r="2.1" fill="#E58A2E"/>
+      </svg>
+      <span>
+        <span class="wm">spend<b>matters</b></span>
+        <span class="sub">Sourcing Intelligence</span>
+      </span>
+    </a>
+    <nav class="links">
+      <a href="#network" class="rv" data-delay="100">Network<sup>4</sup></a>
+      <a href="#capability" class="rv" data-delay="200">Capability</a>
+      <a href="#agents" class="rv" data-delay="300">AI Agents</a>
+      <a href="#contact" class="rv" data-delay="400">Contact</a>
+    </nav>
+    <a href="mailto:INFO@SMSOLUTIONS.NET.IN?subject=Free%20consultation" class="nav-cta rv" data-delay="500">Get Free Consultation</a>
+  </div>
+</header>
+
+<main id="top">
+
+<!-- ============ SECTION ONE — HERO ============ -->
+<section class="sect">
+  <div class="hero-top">
+    <div class="svc">
+      <span class="rv" data-delay="150">/ AI Automation</span>
+      <span class="rv" data-delay="270">/ Global Apparel Sourcing</span>
+      <span class="rv" data-delay="390">/ Supply-Chain Intelligence</span>
+    </div>
+    <p class="intro rv" data-delay="300">
+      We weave AI into apparel sourcing — clarity, precision and control
+      from the first fiber to final delivery.
+    </p>
   </div>
 
-  <!-- HEADER -->
-  <header id="hdr">
-    <div class="wrap nav-row">
-      <a href="#home" class="brand">
-        <svg width="28" height="28" viewBox="0 0 28 28" fill="none">
-          <rect width="28" height="28" rx="8" fill="#111"/>
-          <path d="M8 14.5L12.5 19L20 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <div class="hero-bot">
+    <div>
+      <div class="badge rv" data-delay="150">Your sourcing office across Asia</div>
+      <h1 class="rv" data-delay="280">Sourced. Woven.<br>Automated.</h1>
+    </div>
+
+    <div class="card rv" data-delay="420">
+      <div class="tile">
+        <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
+          <circle cx="16.5" cy="21.5" r="13" stroke="currentColor" stroke-width="1.2"/>
+          <path d="M23.6 14.8 C 13 12.8, 11 20.2, 17.2 21.4 C 23.4 22.6, 22.8 30.2, 11 27.8"
+                stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          <path d="M23.6 14.8 C 27.6 15.4, 31.5 12.6, 34 8.9"
+                stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          <circle cx="35" cy="7.6" r="2" fill="#E58A2E"/>
         </svg>
-        <span>Spend Matters</span>
-      </a>
-      <nav class="desktop-nav">
-        <a href="#home">Home</a>
-        <a href="#services">Services</a>
-        <a href="#why">Why Us</a>
-        <a href="#contact">Contact</a>
-      </nav>
-      <a href="#contact" class="pill-btn">Get Started</a>
-      <button class="burger" id="burger"><span></span><span></span></button>
-    </div>
-    <div class="mob-nav" id="mobNav">
-      <a href="#home">Home</a>
-      <a href="#services">Services</a>
-      <a href="#why">Why Us</a>
-      <a href="#contact">Contact</a>
-    </div>
-  </header>
-
-  <!-- HERO -->
-  <section id="home" class="hero">
-    <div class="wrap hero-layout">
-
-      <!-- LEFT -->
-      <div class="hero-copy">
-        <div class="eyebrow" data-reveal>
-          <span class="pulse-dot"></span>
-          AI for Textile Industry
-        </div>
-
-        <h1 data-reveal data-d="1">
-          Transform Your<br>
-          <em>Textile Business</em><br>
-          With Smart AI
-        </h1>
-
-        <p data-reveal data-d="2">
-          Premium AI automation helping textile and garment industries
-          reduce costs, increase profits, and automate operations end-to-end.
-        </p>
-
-        <div class="cta-group" data-reveal data-d="3">
-          <a href="#contact" class="btn-dark">Book Consultation <span class="arrow-r">→</span></a>
-          <a href="#services" class="btn-outline">Explore Services</a>
-        </div>
-
-        <div class="stats-strip" data-reveal data-d="4">
-          <div class="stat">
-            <strong><span class="cnt" data-to="42">0</span>%</strong>
-            <span>Cost Reduction</span>
-          </div>
-          <div class="sdiv"></div>
-          <div class="stat">
-            <strong><span class="cnt" data-to="18">0</span>%</strong>
-            <span>Profit Growth</span>
-          </div>
-          <div class="sdiv"></div>
-          <div class="stat">
-            <strong>24/7</strong>
-            <span>AI Automation</span>
-          </div>
-        </div>
       </div>
-
-      <!-- CAROUSEL -->
-      <div class="stage" data-reveal data-d="2">
-        <div class="deck" id="deck">
-
-          <div class="kard kard-blue" data-i="0">
-            <div class="kard-label">AI Textile Dashboard</div>
-            <div class="kard-val">₹2.4M</div>
-            <div class="kard-sub">Annual operational savings</div>
-            <svg class="kard-wave" viewBox="0 0 280 70" preserveAspectRatio="none">
-              <path d="M0 55 Q35 45 70 38 Q105 30 140 20 Q175 10 210 16 Q245 22 280 6" stroke="rgba(255,255,255,0.4)" stroke-width="2" fill="none"/>
-              <path d="M0 55 Q35 45 70 38 Q105 30 140 20 Q175 10 210 16 Q245 22 280 6 L280 70 L0 70Z" fill="rgba(255,255,255,0.07)"/>
-            </svg>
-            <div class="kard-pill">↑ 42% YoY</div>
-          </div>
-
-          <div class="kard kard-violet" data-i="1">
-            <div class="kard-label">Automation Workflows</div>
-            <div class="kard-val">3×</div>
-            <div class="kard-sub">Faster textile operations</div>
-            <div class="kard-dots">
-              <span class="on"></span><span class="on"></span><span></span>
-              <span class="on"></span><span></span><span></span>
-              <span></span><span></span><span></span>
-            </div>
-            <div class="kard-pill">24/7 Active</div>
-          </div>
-
-          <div class="kard kard-teal" data-i="2">
-            <div class="kard-label">AI Analytics</div>
-            <div class="kard-val">98%</div>
-            <div class="kard-sub">Reporting accuracy</div>
-            <div class="kard-bars">
-              <span style="--h:55%"></span>
-              <span style="--h:72%"></span>
-              <span style="--h:48%"></span>
-              <span style="--h:88%"></span>
-              <span style="--h:65%"></span>
-              <span style="--h:98%"></span>
-            </div>
-            <div class="kard-pill">↑ 98% Accuracy</div>
-          </div>
-
-        </div>
-
-        <!-- arrows -->
-        <button class="arr arr-l" id="arrL">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M11 4L6 9L11 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </button>
-        <button class="arr arr-r" id="arrR">
-          <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M7 4L12 9L7 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        </button>
-
-        <!-- dots -->
-        <div class="dot-row">
-          <button class="dot on" data-g="0"></button>
-          <button class="dot" data-g="1"></button>
-          <button class="dot" data-g="2"></button>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- SERVICES -->
-  <section id="services" class="services">
-    <div class="wrap">
-
-      <div class="sec-head" data-reveal>
-        <div class="tag">Our Services</div>
-        <h2>Modern AI Solutions<br><em>Built for Textiles</em></h2>
-        <p>End-to-end automation designed for the unique demands of India's garment industry.</p>
-      </div>
-
-      <div class="srv-grid">
-
-        <article class="scard" data-reveal data-d="0">
-          <div class="snum">01</div>
-          <div class="sico">
-            <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-              <circle cx="13" cy="9" r="4" stroke="#111" stroke-width="1.5"/>
-              <path d="M6 22c0-3.866 3.134-7 7-7s7 3.134 7 7" stroke="#111" stroke-width="1.5" stroke-linecap="round"/>
-              <path d="M19 9h4M21 7v4" stroke="#111" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <h3>AI Employees</h3>
-          <p>Intelligent AI agents for merchandising, reporting and follow-up automation that never sleep.</p>
-          <span class="slink">Learn more →</span>
-        </article>
-
-        <article class="scard featured" data-reveal data-d="1">
-          <div class="snum">02</div>
-          <div class="sico white">
-            <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-              <rect x="4" y="4" width="7" height="7" rx="2" stroke="white" stroke-width="1.5"/>
-              <rect x="15" y="4" width="7" height="7" rx="2" stroke="white" stroke-width="1.5"/>
-              <rect x="4" y="15" width="7" height="7" rx="2" stroke="white" stroke-width="1.5"/>
-              <path d="M19 15v3M19 15h-3M19 15l-6-6" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <h3>Workflow Automation</h3>
-          <p>Reduce manpower and automate repetitive textile business operations end to end, instantly.</p>
-          <span class="slink white">Learn more →</span>
-        </article>
-
-        <article class="scard" data-reveal data-d="2">
-          <div class="snum">03</div>
-          <div class="sico">
-            <svg width="26" height="26" viewBox="0 0 26 26" fill="none">
-              <path d="M13 3L16 9H22L17.5 12.5L19.5 19L13 15.5L6.5 19L8.5 12.5L4 9H10L13 3Z" stroke="#111" stroke-width="1.5" stroke-linejoin="round"/>
-            </svg>
-          </div>
-          <h3>Business Consulting</h3>
-          <p>Strategic consulting focused on cost cutting, process optimisation and sustainable growth.</p>
-          <span class="slink">Learn more →</span>
-        </article>
-
-      </div>
-    </div>
-  </section>
-
-  <!-- WHY US -->
-  <section id="why" class="why">
-    <div class="wrap why-layout">
-
-      <div class="why-left" data-reveal>
-        <div class="tag">Why Choose Us</div>
-        <h2>Built Exclusively<br>for <em>Textile &<br>Garment</em> Industries</h2>
-        <p>We don't offer generic AI. Every solution is crafted for the specific workflows, challenges and opportunities in India's textile sector.</p>
-        <a href="#contact" class="btn-dark" style="margin-top:32px;display:inline-flex;">Start Your Journey →</a>
-      </div>
-
-      <div class="why-right" data-reveal data-d="1">
-        <div class="wpill">
-          <div class="wico">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2L12.5 7H18L13.5 10.5L15.5 16L10 13L4.5 16L6.5 10.5L2 7H7.5L10 2Z" fill="currentColor"/></svg>
-          </div>
-          <div><h4>Industry-Specific AI</h4><p>Trained on textile data, not generic business datasets.</p></div>
-        </div>
-        <div class="wpill">
-          <div class="wico">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/><path d="M10 6v4l2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-          </div>
-          <div><h4>Rapid Deployment</h4><p>Live in days, not months — minimal disruption to your processes.</p></div>
-        </div>
-        <div class="wpill">
-          <div class="wico">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M3 10C3 6.13 6.13 3 10 3s7 3.13 7 7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M10 17c-1.5 0-3-1-4-2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M13 14l2.5 2.5-2.5 2.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-          <div><h4>Proven ROI</h4><p>42% cost reduction and 18% profit growth within 6 months on average.</p></div>
-        </div>
-        <div class="wpill">
-          <div class="wico">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="2" y="2" width="6" height="6" rx="1.5" fill="currentColor"/><rect x="12" y="2" width="6" height="6" rx="1.5" fill="currentColor" opacity=".5"/><rect x="2" y="12" width="6" height="6" rx="1.5" fill="currentColor" opacity=".5"/><rect x="12" y="12" width="6" height="6" rx="1.5" fill="currentColor" opacity=".25"/></svg>
-          </div>
-          <div><h4>Full Automation Suite</h4><p>From merchandising to billing — one unified AI platform.</p></div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- CONTACT / FOOTER -->
-  <footer id="contact">
-    <div class="wrap">
-      <div class="footer-cta" data-reveal>
-        <div class="tag" style="margin:0 auto 20px;">Get in Touch</div>
-        <h2>Ready to Automate<br><em>Your Textile Business?</em></h2>
-        <p>Book a free consultation and see how AI transforms your operations.</p>
-        <a href="mailto:INFO@SMSOLUTIONS.NET.IN" class="btn-dark big" style="margin-top:36px;display:inline-flex;">
-          INFO@SMSOLUTIONS.NET.IN →
+      <div class="card-txt">
+        <span class="t1">Talk with our sourcing desk</span>
+        <span class="t2">20 yrs · Fiber to FOB</span>
+        <a class="btn-solid" href="mailto:INFO@SMSOLUTIONS.NET.IN?subject=15-minute%20call">
+          Book 15-min call
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
       </div>
+    </div>
+  </div>
+</section>
 
-      <div class="footer-bar">
-        <div class="brand small">
-          <svg width="22" height="22" viewBox="0 0 28 28" fill="none">
-            <rect width="28" height="28" rx="8" fill="#111"/>
-            <path d="M8 14.5L12.5 19L20 10" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <div>
-            <span class="bn">Spend Matters Solutions</span>
-            <span class="bs">AI Automation &amp; Textile Consulting · India</span>
-          </div>
-        </div>
-        <p class="copy">© 2025 Spend Matters Solutions</p>
+<div class="spacer" aria-hidden="true"></div>
+
+<!-- ============ SECTION TWO — CAPABILITY ============ -->
+<section class="sect" id="capability">
+  <div class="s2-top">
+    <div class="badge rv" data-delay="120">Insight on demand</div>
+    <p class="s2-copy rv" data-delay="220">
+      Our agents don't just report — they interpret, chase and flag
+      the signal your order book needs.
+    </p>
+  </div>
+
+  <div class="s2-bot">
+    <div class="s2-left">
+      <h2 class="rv" data-delay="180">See every thread,<br>brilliantly.</h2>
+      <p class="body rv" data-delay="320">
+        From the first tech pack to the final bill of lading, Spend Matters turns
+        raw intent into decisions your team can act on — quietly, precisely, at speed.
+      </p>
+      <div class="ctas rv" data-delay="420">
+        <a class="btn-solid" href="mailto:INFO@SMSOLUTIONS.NET.IN?subject=Sourcing%20brief">
+          Start a sourcing brief
+          <svg class="chev" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="btn-glass" href="mailto:INFO@SMSOLUTIONS.NET.IN?subject=Free%20consultation">Free consultation</a>
       </div>
     </div>
-  </footer>
 
-  <script src="script.js"></script>
+    <div class="panel">
+      <div class="prow rv" data-delay="300">
+        <span class="idx">01</span>
+        <div>
+          <h3>Live order book
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </h3>
+          <p>Approvals, lab dips, PP samples and shipments tracked in one view — chased before you ask.</p>
+        </div>
+      </div>
+      <div class="prow rv" data-delay="410">
+        <span class="idx">02</span>
+        <div>
+          <h3>Scored factory match
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </h3>
+          <p>Every unit ranked on price, capacity, compliance and past delivery — not personal contacts.</p>
+        </div>
+      </div>
+      <div class="prow rv" data-delay="520">
+        <span class="idx">03</span>
+        <div>
+          <h3>Risk before it slips
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </h3>
+          <p>Lead-time patterns flag delay, compliance and concentration risk while there is still time to act.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="spacer half" aria-hidden="true"></div>
+
+<!-- ============ SECTION THREE — NETWORK ============ -->
+<section class="s3" id="network">
+  <div class="s3-head">
+    <div class="badge rv" data-delay="100">The network</div>
+    <h2 class="rv" data-delay="200">Four countries.<br>One accountable team.</h2>
+  </div>
+
+  <div class="geo-grid rv" data-delay="250">
+    <div class="geo">
+      <div class="top"><h3>India</h3><span class="code">IND · Head office</span></div>
+      <p>Knitwear in Tirupur, home textile in Karur and Panipat, wovens in NCR and Bengaluru. Merchandising, sampling and inspection run by our own team.</p>
+      <div class="tags"><i>Knits</i><i>Home textile</i><i>Kidswear</i><i>Organic cotton</i></div>
+    </div>
+    <div class="geo">
+      <div class="top"><h3>Bangladesh</h3><span class="code">BGD · Volume</span></div>
+      <p>Large repeat programmes in wovens, outerwear and high-volume knits around Dhaka and Chattogram, with compliance monitoring in every booking.</p>
+      <div class="tags"><i>Wovens</i><i>Outerwear</i><i>Denim</i><i>Green factories</i></div>
+    </div>
+    <div class="geo">
+      <div class="top"><h3>China</h3><span class="code">CHN · Technical</span></div>
+      <p>Technical fabrics, performance wear, trims and hardgoods — where engineering and finishing matter more than labour cost.</p>
+      <div class="tags"><i>Performance</i><i>Trims</i><i>Hardgoods</i><i>Fabric R&amp;D</i></div>
+    </div>
+    <div class="geo">
+      <div class="top"><h3>Mauritius</h3><span class="code">MUS · EU duty</span></div>
+      <p>Preferential EU and UK access with strong labour standards. Knitwear and premium basics where duty saving carries the business case.</p>
+      <div class="tags"><i>Knitwear</i><i>EU duty free</i><i>Ethical audit</i></div>
+    </div>
+  </div>
+
+  <div id="agents">
+    <div class="badge rv" data-delay="100" style="margin-bottom:18px">Twelve agents on shift</div>
+    <div class="agents-strip rv" data-delay="220">
+      <span>Buyer AI</span><span>Factory Match AI</span><span>Merchandising AI</span>
+      <span>Costing AI</span><span>Fabric AI</span><span>Product Dev AI</span>
+      <span>Quality AI</span><span>Compliance AI</span><span>Logistics AI</span>
+      <span>Shipment AI</span><span>Forecast AI</span><span class="gold">Risk AI</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="badge rv" data-delay="100">Start here</div>
+  <h2 class="rv" data-delay="200">Tell us what you<br>need made.</h2>
+  <p class="sub rv" data-delay="300">
+    Send the product, the quantity and the delivery window. You'll get a factory
+    shortlist, an indicative cost and a realistic date — not a brochure.
+  </p>
+  <a class="mail rv" data-delay="400" href="mailto:INFO@SMSOLUTIONS.NET.IN?subject=Sourcing%20brief">
+    info@smsolutions.net.in
+    <svg class="chev" width="20" height="14" viewBox="0 0 26 14" fill="none"><path d="M1 7h23M18 1l6 6-6 6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+</section>
+
+<footer class="foot">
+  <span>© 2026 Spend Matters Solutions</span>
+  <span>Not your buying agent — your strategic supply-chain partner</span>
+</footer>
+
+</main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
